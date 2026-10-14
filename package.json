@@ -1,0 +1,17 @@
+{
+  "name": "ecommerce-mono-micro",
+  "version": "1.0.0",
+  "description": "Full-Stack Ecommerce Application comparing Monolithic and Microservice Architectures",
+  "main": "services/monolith/server.js",
+  "scripts": {
+    "start:monolith": "node services/monolith/server.js",
+    "start:microservices": "concurrently -n \"AUTH,CATALOG,CART,INV,ORDER,EVENTS,GATEWAY\" -c \"blue,green,yellow,magenta,cyan,gray,red\" \"node services/microservices/auth-service.js\" \"node services/microservices/catalog-service.js\" \"node services/microservices/cart-service.js\" \"node services/microservices/inventory-service.js\" \"node services/microservices/order-service.js\" \"node services/microservices/event-bus.js\" \"node services/microservices/gateway.js\"",
+    "start:client": "npm --prefix client run dev",
+    "dev": "concurrently -k -n \"MONOLITH,MICROSERVICES,CLIENT\" -c \"blue,magenta,green\" \"npm run start:monolith\" \"npm run start:microservices\" \"npm run start:client\""
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
